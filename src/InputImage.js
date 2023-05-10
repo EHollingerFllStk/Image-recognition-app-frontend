@@ -3,7 +3,8 @@ import axios from "axios";
 
 import { FormControl, Button } from "react-bootstrap";
 
-export default function InputImage() {
+export default function InputImage(props) {
+  const { setOutputs, setImageToPredict } = props;
   const [imageUrl, setImageUrl] = useState("https://samples.clarifai.com/dog2.jpeg")
   
   const handleChangeImageUrl = (e) => {
@@ -11,10 +12,11 @@ export default function InputImage() {
   }
   
   const predictImage = () => {
+    setImageToPredict(imageUrl);
     axios.post('/predict', {
       imageUrl: imageUrl
     }).then((res) => {
-      alert(JSON.stringify(res.data))
+      setOutputs(res.data.results);
     }).catch((err) => {
       alert(err);
     })
